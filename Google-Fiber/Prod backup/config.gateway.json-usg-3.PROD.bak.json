@@ -1,0 +1,74 @@
+{
+	"firewall": {
+		"name": {
+			"WAN_IN": {
+				"rule": {
+					"1001": {
+						"action": "accept",
+						"description": "Allow Multicast",
+						"destination": {
+							"address": "224.0.0.0/4"
+						},
+						"log": "disable",
+						"protocol": "all"
+					},
+					"1002": {
+						"action": "accept",
+						"description": "Allow UDP to Multicast",
+						"destination": {
+							"address": "224.0.0.0/4"
+						},
+						"log": "disable",
+						"protocol": "udp"
+					},
+					"1003": {
+						"action": "accept",
+						"description": "Allow IGMP",
+						"log": "disable",
+						"protocol": "igmp"
+					}
+				}
+			},
+			"WAN_LOCAL": {
+				"rule": {
+					"1001": {
+						"action": "accept",
+						"description": "Allow Multicast",
+						"destination": {
+							"address": "224.0.0.0/4"
+						},
+						"log": "disable",
+						"protocol": "all"
+					}
+				}
+			}
+		}
+	},
+	"interfaces": {
+		"ethernet": {
+			"eth0": {
+				"vif": {
+					"2": {
+						"egress-qos": "0:3"
+					}
+				}
+			}
+		}
+	},
+	"protocols": {
+		"igmp-proxy": {
+			"interface": {
+				"eth0.2": {
+					"alt-subnet": ["0.0.0.0/0"],
+					"role": "upstream",
+					"threshold": "1"
+				},
+				"eth1": {
+					"alt-subnet": ["0.0.0.0/0"],
+					"role": "downstream",
+					"threshold": "1"
+				}
+			}
+		}
+	}
+}
